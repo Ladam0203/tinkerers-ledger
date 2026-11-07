@@ -8,9 +8,9 @@ RotMG daily quest & mark tracker. Next.js (App Router) + TypeScript, fully stati
 - `public/img` – item sprites from the RealmEye wiki (file name = slugified item name)
 
 ```bash
-npm install
-npm run dev      # http://localhost:3000
-npm run build    # production build
+pnpm install
+pnpm dev          # http://localhost:3000
+pnpm build        # production build
 ```
 
 Set `NEXT_PUBLIC_SITE_URL` (e.g. `https://tinkerersledger.com`) in Vercel so canonical URLs and the sitemap use your domain.

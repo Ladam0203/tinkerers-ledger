@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Pixelify_Sans, Silkscreen } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/ledger";
 import "./globals.css";
 
@@ -37,7 +38,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${pixel.variable} ${body.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

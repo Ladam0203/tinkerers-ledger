@@ -1,0 +1,231 @@
+:root {
+  --bg: #1f1f1f;
+  --panel: #303030;
+  --slot: #4a4a4a;
+  --slot-edge: #6a6a6a;
+  --slot-shadow: #3a3a3a;
+  --text: #e6e6e6;
+  --muted: #8a8a8a;
+  --ready: #6fd36f;
+  --done: #5a8fd8;
+  --warn: #e0b04a;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 16px/1.4 var(--font-body), system-ui, sans-serif;
+}
+h1, h2, h3, .slot .count, button { font-family: var(--font-pixel), monospace; }
+h1 { margin: 0; font-size: 26px; letter-spacing: 1px; }
+h2 { margin: 0; font-size: 18px; font-weight: 400; }
+h3 { margin: 0; font-size: 15px; font-weight: 400; }
+img { image-rendering: pixelated; }
+.muted { color: var(--muted); }
+
+.site-header {
+  display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px;
+  padding: 16px 24px; background: var(--panel); border-bottom: 3px solid #000;
+}
+.reset { color: var(--muted); }
+.countdown { color: var(--text); font-family: var(--font-pixel), monospace; }
+
+.tracker { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 24px; padding: 24px; max-width: 1400px; margin: 0 auto; }
+@media (max-width: 900px) { .tracker { grid-template-columns: 1fr; padding: 16px; } }
+aside.col { position: sticky; top: 16px; align-self: start; max-height: calc(100vh - 32px); overflow: auto; }
+@media (max-width: 900px) { aside.col { position: static; max-height: none; } }
+
+.section-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 8px 0 12px; flex-wrap: wrap; }
+.section-head + .section-head, .today-list + .section-head { margin-top: 32px; }
+.actions { display: flex; gap: 8px; }
+
+button {
+  background: var(--slot); color: var(--text); border: 2px solid var(--slot-edge);
+  border-bottom-color: var(--slot-shadow); padding: 4px 10px; font-size: 12px; cursor: pointer;
+}
+button:hover { background: #5a5a5a; }
+button.primary { background: #2f6b2f; border-color: #4f9f4f; }
+button.primary:hover { background: #3a823a; }
+input[type=search] {
+  background: var(--panel); color: var(--text); border: 2px solid var(--slot-edge);
+  padding: 6px 10px; font: inherit; min-width: 220px;
+}
+.toggle { color: var(--muted); font-size: 14px; cursor: pointer; }
+.hint { color: var(--muted); font-size: 13px; margin: -6px 0 12px; }
+
+/* ----- item slots (mirrors the in-game quest window) ----- */
+.slot {
+  position: relative; width: 52px; height: 52px; flex: none;
+  background: var(--slot); border: 3px solid var(--slot-edge); border-bottom-color: var(--slot-shadow);
+  display: grid; place-items: center;
+}
+.slot img { width: 40px; height: 40px; }
+.slot.missing img { opacity: .25; filter: grayscale(1); }
+.slot .count {
+  position: absolute; right: 2px; bottom: 0; font-size: 11px;
+  text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+}
+.slots { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* ----- today's quest cards ----- */
+.today-list { display: grid; gap: 12px; }
+.empty { color: var(--muted); padding: 24px; text-align: center; background: var(--panel); border: 2px dashed var(--slot-edge); }
+.quest {
+  background: var(--panel); padding: 14px 16px; border-left: 6px solid var(--slot-edge);
+  display: grid; gap: 10px;
+}
+.quest.ready { border-left-color: var(--ready); }
+.quest.done { border-left-color: var(--done); opacity: .6; }
+.quest-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.quest-top .left { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.tag { font-size: 12px; color: var(--muted); }
+.status { font-family: var(--font-pixel), monospace; font-size: 12px; padding: 2px 8px; background: #222; }
+.status.ready { color: var(--ready); }
+.status.done { color: var(--done); }
+.status.need { color: var(--muted); }
+.quest-body { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.rewards { display: flex; align-items: center; gap: 4px; color: var(--muted); font-size: 13px; }
+.rewards img { width: 28px; height: 28px; }
+.quest .buttons { display: flex; gap: 6px; }
+
+/* ----- picker ----- */
+.cat { margin-bottom: 18px; }
+.cat h3 { color: var(--muted); margin-bottom: 8px; }
+.pick-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 6px; }
+.pick {
+  display: flex; align-items: center; gap: 8px; padding: 6px 8px; cursor: pointer; text-align: left;
+  background: var(--panel); border: 2px solid transparent; color: var(--text); font: inherit; font-size: 14px;
+}
+.pick:hover { border-color: var(--slot-edge); background: var(--panel); }
+.pick.on { border-color: var(--ready); }
+.pick .icons { display: flex; margin-left: auto; }
+.pick .icons img { width: 24px; height: 24px; }
+.pick .ready-dot { width: 8px; height: 8px; background: var(--ready); flex: none; }
+.pick .ready-dot.no { background: transparent; }
+
+/* ----- inventory ----- */
+.inventory { display: grid; gap: 6px; }
+.inv-row { display: flex; align-items: center; gap: 10px; background: var(--panel); padding: 6px 8px; }
+.inv-row .slot { cursor: pointer; user-select: none; }
+.inv-row .name { flex: 1; font-size: 14px; }
+.inv-row .need { display: block; font-size: 12px; color: var(--muted); }
+.inv-row .name { min-width: 0; line-height: 1.25; }
+.where { font-size: 12px; color: #b9a37a; }
+.go { font-size: 13px; color: #b9a37a; line-height: 1.5; }
+.go b { color: var(--text); font-weight: 600; }
+.inv-row .need.short { color: var(--warn); }
+.inv-row .need.ok { color: var(--ready); }
+.inv-row button { width: 28px; padding: 2px 0; }
+.inv-row input {
+  width: 46px; background: #222; color: var(--text); border: 2px solid var(--slot-edge);
+  font: inherit; text-align: center; padding: 2px;
+}
+.inv-group { color: var(--muted); font-size: 13px; margin: 10px 0 2px; font-family: var(--font-pixel), monospace; }
+
+/* ----- tappable slots on quest cards ----- */
+.quest .slot.tap { cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent; }
+.quest .slot.tap:active { transform: scale(.94); }
+.quest.done .slot { cursor: default; }
+button { touch-action: manipulation; }
+
+/* ----- mobile: one view at a time + bottom tab bar ----- */
+.tabbar { display: none; }
+@media (min-width: 901px) {
+  .view-today .hint { display: none; }
+  .view-pick { margin-top: 32px; }
+}
+@media (max-width: 900px) {
+  .site-header { padding: 10px 16px; }
+  h1 { font-size: 20px; }
+  .reset { font-size: 13px; }
+  .tracker { padding: 12px 12px calc(76px + env(safe-area-inset-bottom)); gap: 0; }
+  .view { display: none; }
+  .tracker[data-view="today"] .view-today,
+  .tracker[data-view="pick"] .view-pick,
+  .tracker[data-view="inv"] .view-inv { display: block; }
+  .section-head { margin-top: 4px; }
+  input[type=search] { min-width: 0; width: 100%; font-size: 16px; } /* 16px stops iOS zoom */
+  .inv-row input { font-size: 16px; }
+
+  .quest { padding: 12px; }
+  .slot { width: 44px; height: 44px; border-width: 2px; }
+  .slot img { width: 34px; height: 34px; }
+  .slots { gap: 6px; }
+  .quest .buttons button { padding: 8px 14px; }
+
+  .pick-list { grid-template-columns: 1fr; }
+  .pick { padding: 10px; }
+
+  .inv-row button { width: 40px; height: 40px; font-size: 16px; }
+  .inv-row input { width: 50px; height: 40px; }
+
+  .tabbar {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 10;
+    background: var(--panel); border-top: 3px solid #000;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .tabbar button {
+    background: none; border: 0; border-top: 3px solid transparent;
+    padding: 14px 4px; font-size: 13px; color: var(--muted);
+    display: flex; justify-content: center; align-items: center; gap: 6px;
+  }
+  .tabbar button.on { color: var(--text); border-top-color: var(--ready); background: #383838; }
+  .badge:empty { display: none; }
+  .badge { font-size: 11px; padding: 1px 5px; background: #222; color: var(--muted); }
+  .badge.good { color: var(--ready); }
+}
+button:disabled, button.primary:disabled { background: #3a3a3a; border-color: #4a4a4a; color: #6a6a6a; cursor: default; }
+.inv-row .sub { font-size: 12px; color: var(--muted); }
+
+/* ===== site chrome (Next.js version) ===== */
+a { color: #d9c08a; }
+a:hover { color: #f0d9a6; }
+.site-header .brand { display: flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; }
+.site-header .brand img { width: 32px; height: 32px; }
+.site-header .right { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; }
+.site-nav { display: flex; gap: 14px; font-family: var(--font-pixel), monospace; font-size: 13px; }
+.site-nav a { color: var(--muted); text-decoration: none; }
+.site-nav a:hover, .site-nav a[aria-current="page"] { color: var(--text); }
+
+.site-footer {
+  max-width: 1400px; margin: 24px auto 0; padding: 20px 24px 32px; color: var(--muted); font-size: 13px;
+  border-top: 2px solid #2a2a2a; display: grid; gap: 8px;
+}
+.site-footer p { margin: 0; }
+@media (max-width: 900px) { .site-footer { padding: 16px 16px 96px; } }
+
+/* intro text on the home page (also gives search engines something to read) */
+.intro { max-width: 1400px; margin: 0 auto; padding: 0 24px; color: var(--muted); font-size: 14px; }
+.intro p { margin: 0 0 6px; max-width: 75ch; }
+@media (max-width: 900px) { .intro { display: none; } }
+
+/* ===== content pages: dungeons / quests ===== */
+.page { max-width: 960px; margin: 0 auto; padding: 24px; }
+@media (max-width: 900px) { .page { padding: 16px; } }
+.page h1 { font-size: 24px; margin: 0 0 6px; }
+.page h2 { margin: 28px 0 12px; }
+.page .lead { color: var(--muted); margin: 0 0 18px; max-width: 75ch; }
+.crumbs { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+.crumbs a { color: var(--muted); }
+.card { background: var(--panel); padding: 14px 16px; display: grid; gap: 10px; }
+.card + .card { margin-top: 10px; }
+.mark-head { display: flex; align-items: center; gap: 14px; }
+.mark-head .slot { width: 60px; height: 60px; }
+.mark-head .slot img { width: 48px; height: 48px; }
+.facts { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; margin: 0; font-size: 15px; }
+.facts dt { color: var(--muted); }
+.facts dd { margin: 0; }
+.link-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 8px; list-style: none; padding: 0; margin: 0; }
+.link-grid li a {
+  display: flex; align-items: center; gap: 10px; padding: 8px 10px; background: var(--panel);
+  color: var(--text); text-decoration: none; border: 2px solid transparent; height: 100%;
+}
+.link-grid li a:hover { border-color: var(--slot-edge); }
+.link-grid img { width: 32px; height: 32px; flex: none; }
+.link-grid small { display: block; color: var(--muted); font-size: 12px; }
+.req-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.req-list li { display: flex; align-items: center; gap: 10px; }
+.req-list img { width: 32px; height: 32px; }
+.req-list .count { font-family: var(--font-pixel), monospace; min-width: 2.5ch; }
+.cta { display: inline-block; margin-top: 18px; padding: 8px 14px; background: #2f6b2f; border: 2px solid #4f9f4f; color: var(--text); text-decoration: none; font-family: var(--font-pixel), monospace; font-size: 13px; }
+.cta:hover { background: #3a823a; color: var(--text); }
